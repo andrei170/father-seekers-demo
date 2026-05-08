@@ -152,7 +152,11 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
   background-image: url('./photos/gSKQnv55TGA.jpg');
   background-size: cover; background-position: center;
   filter: brightness(0.4) saturate(1.1) contrast(1.05) sepia(0.15);
-  transform: scale(1.05);
+  animation: heroKenBurns 32s ease-in-out infinite alternate;
+}
+@keyframes heroKenBurns {
+  from { transform: scale(1.05) translate(0, 0); }
+  to { transform: scale(1.18) translate(2%, -2%); }
 }
 .hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,13,10,0.55) 0%, rgba(14,13,10,0.78) 60%, rgba(14,13,10,1) 100%); }
 .hero-inner { position: relative; z-index: 2; max-width: 920px; }
@@ -283,6 +287,63 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
 .footer-col a { color: var(--cream-dim); font-size: 14px; transition: color 0.2s; }
 .footer-col a:hover { color: var(--gold); }
 .footer-bottom { padding-top: 32px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 16px; }
+
+/* === Photo Gallery === */
+.gallery-section { background: var(--bg); }
+.gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 8px; margin-top: 40px; }
+.gallery-item { background-size: cover; background-position: center; border-radius: 4px; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), filter 0.4s, box-shadow 0.4s; cursor: pointer; position: relative; overflow: hidden; }
+.gallery-item:hover { transform: scale(1.02); filter: brightness(1.1) saturate(1.05); z-index: 2; box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+.gallery-item.tall { grid-row: span 2; }
+.gallery-item.wide { grid-column: span 2; }
+
+/* === Press Strip === */
+.press-strip { padding: 56px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-elevated); position: relative; z-index: 2; }
+.press-strip-inner { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; justify-content: center; }
+.press-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+.press-item { font-family: var(--serif); font-size: 22px; font-weight: 400; font-style: italic; color: var(--cream-dim); letter-spacing: -0.01em; opacity: 0.55; transition: opacity 0.3s, color 0.3s; cursor: default; }
+.press-item:hover { opacity: 1; color: var(--gold); }
+
+/* === Live Activity Widget === */
+.live-widget { position: fixed; bottom: 24px; right: 24px; background: var(--bg-card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; box-shadow: 0 12px 36px rgba(0,0,0,0.5); z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); transform: translateY(120px); opacity: 0; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.4s; max-width: 280px; }
+.live-widget.visible { transform: translateY(0); opacity: 1; }
+.live-widget::after { content: ''; position: absolute; inset: -2px; border-radius: 12px; border: 2px solid var(--gold); opacity: 0; animation: widgetPing 5s ease-out infinite; animation-delay: 4s; pointer-events: none; }
+@keyframes widgetPing { 0% { opacity: 0; transform: scale(0.96); } 18% { opacity: 0.45; transform: scale(1); } 100% { opacity: 0; transform: scale(1.06); } }
+.live-widget-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.live-widget-dot { width: 8px; height: 8px; border-radius: 50%; background: #2a9d4f; box-shadow: 0 0 0 0 rgba(42,157,79,0.7); animation: pulseDot 2s infinite; }
+@keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(42,157,79,0.6); } 70% { box-shadow: 0 0 0 8px rgba(42,157,79,0); } 100% { box-shadow: 0 0 0 0 rgba(42,157,79,0); } }
+.live-widget-stat { font-family: var(--serif); font-size: 17px; font-weight: 400; line-height: 1.3; color: var(--cream); margin-bottom: 6px; }
+.live-widget-stat strong { color: var(--gold); font-weight: 500; }
+.live-widget-cta { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--gold); margin-top: 6px; cursor: pointer; transition: color 0.2s; font-weight: 500; }
+.live-widget-cta:hover { color: var(--gold-bright); }
+
+/* === Application Modal === */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: opacity 0.3s; }
+.modal-backdrop.visible { display: flex; opacity: 1; }
+.modal { background: var(--bg-elevated); border: 1px solid var(--line); border-radius: 10px; max-width: 520px; width: 100%; padding: 44px; transform: translateY(40px) scale(0.95); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.7); max-height: 90vh; overflow-y: auto; }
+.modal-backdrop.visible .modal { transform: translateY(0) scale(1); }
+.modal-close { position: absolute; top: 20px; right: 20px; background: transparent; border: 1px solid var(--line); border-radius: 50%; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; color: var(--cream); font-size: 18px; transition: border-color 0.2s, color 0.2s; }
+.modal-close:hover { border-color: var(--gold); color: var(--gold); }
+.modal-eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
+.modal h3 { font-family: var(--serif); font-size: 38px; font-weight: 400; line-height: 1; letter-spacing: -0.02em; margin-bottom: 8px; }
+.modal h3 em { color: var(--gold); font-style: italic; }
+.modal-sub { color: var(--cream-dim); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
+.modal-form { display: grid; gap: 16px; }
+.modal-field { display: flex; flex-direction: column; gap: 6px; }
+.modal-label { font-size: 11px; letter-spacing: 0.05em; color: var(--cream-dim); text-transform: uppercase; font-weight: 500; }
+.modal-input, .modal-select, .modal-textarea { background: var(--bg-card); border: 1px solid var(--line); padding: 14px 16px; font-family: var(--sans); font-size: 14px; color: var(--cream); border-radius: 4px; outline: none; transition: border-color 0.2s; font-family: var(--sans); }
+.modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: var(--gold); }
+.modal-textarea { min-height: 80px; resize: vertical; }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-submit { background: var(--gold); color: var(--bg); border: none; padding: 16px; font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 4px; cursor: pointer; margin-top: 8px; transition: background 0.2s, transform 0.15s; }
+.modal-submit:hover { background: var(--gold-bright); transform: translateY(-1px); }
+
+/* === Lightbox === */
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 250; padding: 40px; cursor: zoom-out; opacity: 0; transition: opacity 0.3s; }
+.lightbox.visible { display: flex; opacity: 1; }
+.lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); transform: scale(0.95); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+.lightbox.visible img { transform: scale(1); }
+.lightbox-close { position: absolute; top: 24px; right: 24px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: white; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; font-size: 18px; transition: background 0.2s, border-color 0.2s; }
+.lightbox-close:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); }
 
 /* Responsive */
 @media (max-width: 1024px) {
@@ -529,6 +590,42 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
   </div>
 </section>
 
+<section class="section gallery-section" id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <span class="section-number">— Gallery</span>
+        <h2>From the <em>journey.</em></h2>
+      </div>
+      <p>The work is patient. It's quiet. It's done in conversations across kitchen tables, in hotel rooms before speaking engagements, in the long stretches of writing and listening. These are moments from the road.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item tall" style="background-image: url('./photos/Barry.jpeg'); background-position: center 20%;"></div>
+      <div class="gallery-item" style="background-image: url('./photos/QmlRmu62v6A.jpg');"></div>
+      <div class="gallery-item" style="background-image: url('./photos/IMG_8662.jpg');"></div>
+      <div class="gallery-item wide" style="background-image: url('./photos/lECj_ApWuVs.jpg');"></div>
+      <div class="gallery-item" style="background-image: url('./photos/kAOL6GOJDPE.jpg');"></div>
+      <div class="gallery-item tall" style="background-image: url('./photos/gSKQnv55TGA.jpg');"></div>
+      <div class="gallery-item" style="background-image: url('./photos/skool-on-website.jpg');"></div>
+      <div class="gallery-item" style="background-image: url('./photos/podcast-logo_00000.png'); background-color: var(--bg-card); background-size: 60%; background-repeat: no-repeat;"></div>
+    </div>
+  </div>
+</section>
+
+<div class="press-strip">
+  <div class="container">
+    <div class="press-strip-inner">
+      <span class="press-label">Where the work belongs</span>
+      <span class="press-item">Christian Post</span>
+      <span class="press-item">K-LOVE</span>
+      <span class="press-item">Crosswalk</span>
+      <span class="press-item">Focus on the Family</span>
+      <span class="press-item">Manhood Journey</span>
+      <span class="press-item">Christianity Today</span>
+    </div>
+  </div>
+</div>
+
 <section class="cta-section" id="join-magnet">
   <div class="container">
     <div class="cta-inner">
@@ -620,6 +717,65 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
   </div>
 </footer>
 
+<div class="live-widget" id="liveWidget">
+  <div class="live-widget-header">
+    <span class="live-widget-dot"></span>
+    <span>Live now</span>
+  </div>
+  <div class="live-widget-stat"><strong>247 men</strong> in the community</div>
+  <div class="live-widget-stat">Next cohort opens: <strong>January 6</strong></div>
+  <a href="#" class="live-widget-cta" data-apply>Apply for the Circle →</a>
+</div>
+
+<div class="modal-backdrop" id="reserveModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="modal-eyebrow">Father Seekers · Circle of 5</div>
+    <h3>Apply for the <em>Circle.</em></h3>
+    <p class="modal-sub">Five men, twelve weeks, one coach. We open cohorts quarterly. Tell us a little about where you are and we'll be in touch within 48 hours.</p>
+    <form class="modal-form" onsubmit="event.preventDefault(); document.getElementById('reserveModal').classList.remove('visible'); setTimeout(() => alert('Application received. Pastor Barry will reach out within 48 hours.'), 300);">
+      <div class="modal-row">
+        <div class="modal-field">
+          <label class="modal-label">First Name</label>
+          <input class="modal-input" type="text" required>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Last Name</label>
+          <input class="modal-input" type="text" required>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Email</label>
+        <input class="modal-input" type="email" placeholder="your@email.com" required>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Phone</label>
+        <input class="modal-input" type="tel" placeholder="(555) 555-5555">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Did you grow up with an engaged father?</label>
+        <select class="modal-select" required>
+          <option value="">Select one</option>
+          <option>No, fatherless</option>
+          <option>Yes, but distant</option>
+          <option>Yes, engaged</option>
+          <option>Complicated</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">What's the hardest part of fatherhood for you right now?</label>
+        <textarea class="modal-textarea" rows="3" placeholder="A few sentences is enough."></textarea>
+      </div>
+      <button type="submit" class="modal-submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <img id="lightboxImg" alt="">
+</div>
+
 <script>
 const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
@@ -646,6 +802,37 @@ if (typeof gsap !== 'undefined') {
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
 });
+
+// Application modal
+const reserveModal = document.getElementById('reserveModal');
+const modalClose = document.getElementById('modalClose');
+document.querySelectorAll('a').forEach(a => {
+  if (a.hasAttribute('data-apply') || a.getAttribute('href') === '#circle') {
+    a.addEventListener('click', e => { e.preventDefault(); reserveModal.classList.add('visible'); });
+  }
+});
+modalClose.addEventListener('click', () => reserveModal.classList.remove('visible'));
+reserveModal.addEventListener('click', e => { if (e.target === reserveModal) reserveModal.classList.remove('visible'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { reserveModal.classList.remove('visible'); document.getElementById('lightbox').classList.remove('visible'); } });
+
+// Live widget reveal
+const liveWidget = document.getElementById('liveWidget');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 600) liveWidget.classList.add('visible');
+}, { passive: true });
+
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+document.querySelectorAll('.gallery-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const bg = item.style.backgroundImage;
+    const url = bg.match(/url\(['"]?([^'")]+)['"]?\)/)?.[1];
+    if (url) { lightboxImg.src = url; lightbox.classList.add('visible'); }
+  });
+});
+lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target === lightboxClose) lightbox.classList.remove('visible'); });
 
 document.querySelectorAll('.btn-primary, .path-cta').forEach(btn => {
   btn.addEventListener('mousemove', e => {
